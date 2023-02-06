@@ -1,8 +1,14 @@
-import React from 'react'
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 function Landing() {
   return (
-    <div>Landing</div>
+    <div>
+      <h1>Welcome to your videogame webpage</h1>
+      <Link to={'/home'}>
+        <button>PRESS START</button>
+      </Link>
+    </div>
   )
 }
 
