@@ -1,12 +1,10 @@
 import './App.css';
-import { Route, Switch, BrowserRouter } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import * as pages from './pages/index.js'
 
 
 function App() {
   return (
-    
-    <BrowserRouter>
       <div className="App">
           <Switch>
             <Route exact path="/" component={pages.Landing} />
@@ -15,8 +13,6 @@ function App() {
             <Route exact path={'/form'} component={pages.Form} />
           </Switch>
       </div>
-    </BrowserRouter>
-      
   );
 }
 
