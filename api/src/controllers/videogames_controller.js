@@ -3,6 +3,7 @@ const {Promise} = require('bluebird');
 require('dotenv').config(/* {path: '../../.env'} */);
 const { api_key } = process.env;
 const { Videogame, Genre} = require('../db');
+const { myIsObject } = require('../utils')
 
 const cleanApiInfo = function (info) {
     if (Array.isArray(info)){
@@ -70,18 +71,29 @@ const getAllInfo = async function () {
     return allInfo;
 }
 
-const getGameByName = async function (name) {
-    const allInfo = await getAllInfo();
-    const gameByName = allInfo.filter(game => game.name.toLowerCase() === name.toLowerCase());
-
-    return gameByName;
-}
-
 const getGameById = async function (id) {
-    const apiUrl = await axios.get(`https://api.rawg.io/api/games/${id}?key=${api_key}`)
-    const gameById = cleanApiInfo(apiUrl.data);
+    try {
+        const apiUrl = await axios.get(`https://api.rawg.io/api/games/${id}?key=${api_key}`)
+        const gameById = cleanApiInfo(apiUrl.data);
+        
+        return gameById;
+    } catch (error) {
+        console.log("API Error:",error.response.status, error.response.statusText)
+    }
+    const dbInfo = await getDbInfo();
+    const filteredDbInfo = dbInfo.filter(elem => elem.id === id);
+    const gameById = filteredDbInfo.at(0).dataValues;
+    console.log(gameById)
 
     return gameById;
+}
+
+const getGameByName = async function (name) {
+    const allInfo = await getAllInfo();
+    const gameByName = allInfo.filter(game => game.name.toString().toLowerCase() === name.toString().toLowerCase());
+    const gameWithDetails = await getGameById(gameByName.at(0).id);
+
+    return gameWithDetails;
 }
 
 const createGame = async function (body) {
@@ -104,13 +116,38 @@ const createGame = async function (body) {
         created,
     });
 
-    let genreDb = await Genre.findAll({
-        where: { name: genres }
-    });
-
-    await createdGame.addGenre(genreDb);
+    if(Array.isArray(genres) && myIsObject(genres.at(0))){
+        genres.forEach(async (genre) => {
+            let genreDb = await Genre.findAll({
+                where: { name: genre.name }
+            });
+        
+            await createdGame.addGenre(genreDb);
+            
+            return createdGame;
+        })
+    }
+    else if (Array.isArray(genres)) {
+        genres.forEach(async (genre) => {
+            let genreDb = await Genre.findAll({
+                where: { name: genre }
+            });
+        
+            await createdGame.addGenre(genreDb);
+            
+            return createdGame;
+        })
+    }
+    else{
+        let genreDb = await Genre.findAll({
+            where: { name: genres }
+        });
     
-    return createdGame;
+        await createdGame.addGenre(genreDb);
+        
+        return createdGame;
+    }
+
 }
 
 module.exports = {

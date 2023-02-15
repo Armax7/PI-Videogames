@@ -1,6 +1,6 @@
 import './App.css';
 import { Route, Switch } from 'react-router-dom';
-import * as pages from './pages/index.js'
+import * as pages from './pages/index.js';
 
 
 function App() {

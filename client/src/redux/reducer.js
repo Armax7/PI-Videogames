@@ -1,15 +1,15 @@
 import * as Actions from './actions';
 import * as Constant from '../constants';
 import * as Utils from '../utils';
-// import _ from 'lodash';
 
 const initialState = {
     videogame_list: [],
     videogamesByGenre: [],
     videogamesByOrigin: [],
     allVideogames: [],
-    videogame: {},
+    videogame: {name: undefined},
     genre_list:[],
+    error: '',
 }
 
 
@@ -25,10 +25,27 @@ export default function rootReducer (state = initialState, action) {
                 allVideogames: initialRes.sort((a,b)=>(Utils.mySortAscendingComparingFunc(a.name,b.name))),
             }
 
+        case Actions.GET_BY_NAME:
+            return {
+                ...state,
+                videogame: action.payload,
+            }
+
+        case Actions.GET_BY_ID:
+            return {
+                ...state,
+                videogame: action.payload,
+            }
+
         case Actions.GET_GENRES:
             return {
                 ...state,
                 genre_list: action.payload,
+            }
+
+        case Actions.POST_VIDEOGAME:
+            return {
+                ...state,
             }
 
         case Actions.FILTER_BY_GENRE:
@@ -111,6 +128,18 @@ export default function rootReducer (state = initialState, action) {
                 videogame_list: sortedByRating,
                 videogamesByGenre:  sortedGenreByRating,
                 videogamesByOrigin: sortedOriginByRating,
+            }
+        
+        case Actions.ERROR:
+            return {
+                ...state,
+                error: action.payload,
+            }
+
+        case Actions.RESET_VIDEOGAME_BY_NAME:
+            return {
+                ...state,
+                videogame: action.payload,
             }
 
         default: return {...state};

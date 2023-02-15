@@ -1,6 +1,7 @@
 
 export const ALL = 'All';
 export const NONE = 'None';
+export const SELECT = 'Select';
 export const EXISTING_GAME = 'Existing Game'; 
 export const CREATED_GAME = 'Created Game';
 export const ALPHABETICAL = 'Alphabetical';

@@ -9,7 +9,7 @@ function generateValue(element){
   }
 }
 
-function Filter(props) {
+function DropDown(props) {
     const {
       options = [],
       value = options.at(0),
@@ -32,4 +32,4 @@ function Filter(props) {
   )
 }
 
-export default Filter
+export default DropDown

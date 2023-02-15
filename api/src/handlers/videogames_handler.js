@@ -10,7 +10,7 @@ const getVideogames = async function (req, res) {
             res.status(200).json(allGames);
         }
         else {
-            const gameByName = await controllers.getGameByName();
+            const gameByName = await controllers.getGameByName(name);
 
             (!!gameByName) ? 
             res.status(200).json(gameByName) :

@@ -2,9 +2,7 @@ import React from 'react';
 import {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import { Link } from 'react-router-dom';
-import Filter from '../../components/Filter/Filter';
-import GamesContainer from '../../components/GamesContainer/GamesContainer';
-import GamesPagesContainer from '../../components/GamesPagesContainer/GamesPagesContainer';
+import * as Components from '../../components';
 import * as Actions from '../../redux/actions';
 import * as Constant from '../../constants';
 
@@ -19,17 +17,17 @@ function Home() {
   const GAMES_PER_PAGE = 15;
   const [gamesPerPage, setGamesPerPage] = useState(GAMES_PER_PAGE);
 
-  const genresOptions = [Constant.ALL, ...allGenres];
-  const [selectedGenre, setSelectedGenre] = useState(genresOptions.at(0));
+  const GENRE_OPTIONS = [Constant.ALL, ...allGenres];
+  const [selectedGenre, setSelectedGenre] = useState(GENRE_OPTIONS.at(0));
 
-  const gameOrigins = [Constant.ALL, Constant.EXISTING_GAME, Constant.CREATED_GAME]
-  const [selectedOrigin, setSelectedOrigin] = useState(gameOrigins.at(0));
+  const GAME_ORIGINS = [Constant.ALL, Constant.EXISTING_GAME, Constant.CREATED_GAME]
+  const [selectedOrigin, setSelectedOrigin] = useState(GAME_ORIGINS.at(0));
 
-  const sortTypes = [Constant.ALPHABETICAL, Constant.RATING]
-  const [selectedSortType, setSelectedSortType] = useState(sortTypes.at(0));
+  const SORT_TYPES = [Constant.ALPHABETICAL, Constant.RATING]
+  const [selectedSortType, setSelectedSortType] = useState(SORT_TYPES.at(0));
 
-  const orders = [Constant.ASCENDING, Constant.DESCENDING];
-  const [selectedOrder, setSelectedOrder] = useState(orders.at(0));
+  const ORDER_TYPE = [Constant.ASCENDING, Constant.DESCENDING];
+  const [selectedOrder, setSelectedOrder] = useState(ORDER_TYPE.at(0));
 
   const lastGameIndex = currentPage * gamesPerPage;
   const firstGameIndex = lastGameIndex - gamesPerPage;
@@ -46,10 +44,10 @@ function Home() {
 
   function handleClickResetFilters(event){
     event.preventDefault();
-    setSelectedGenre(genresOptions.at(0));
-    setSelectedOrigin(gameOrigins.at(0));
-    setSelectedSortType(sortTypes.at(0));
-    setSelectedOrder(orders.at(0));
+    setSelectedGenre(GENRE_OPTIONS.at(0));
+    setSelectedOrigin(GAME_ORIGINS.at(0));
+    setSelectedSortType(SORT_TYPES.at(0));
+    setSelectedOrder(ORDER_TYPE.at(0));
     dispatch(Actions.filterAllGames());
   }
 
@@ -93,43 +91,44 @@ function Home() {
 
   return (
     <div>
-      <Link to={'/videogames'} >Add videogame</Link>
+      <Link to={'/form'} >Add videogame</Link>
       <h1>Videogames</h1>
+      <Components.VideogameSearchBar redirect={'/detail'} />
       <button onClick={handleClickResetFilters} >Reset Filters</button>
       <h4>Filter by: </h4>
       <div>
         <h5>
-          Genre: <Filter 
+          Genre: <Components.DropDown 
             onChange={handleChangeGenre} 
-            options={genresOptions} 
+            options={GENRE_OPTIONS} 
             value={selectedGenre}
           />&nbsp;
-          Origin: <Filter 
+          Origin: <Components.DropDown 
             onChange={handleChangeOrigin}
-            options={gameOrigins} 
+            options={GAME_ORIGINS} 
             value={selectedOrigin}
           />
         </h5>
         <h5>
-          Sort: <Filter 
+          Sort: <Components.DropDown 
             onChange={handleChangeSortType}
-            options={sortTypes} 
+            options={SORT_TYPES} 
             value={selectedSortType}
           />&nbsp;
-          Order: <Filter 
+          Order: <Components.DropDown 
             onChange={handleChangeOrder}
-            options={orders} 
+            options={ORDER_TYPE} 
             value={selectedOrder}
           />
         </h5>
       </div>
-      <GamesPagesContainer 
+      <Components.GamesPagesContainer 
         gamesPerPage={gamesPerPage} 
         allGamesLength={videogamesToShow.length} 
         initialPage ={STARTING_PAGE}
         pagination={pagination}
       />
-      <GamesContainer games={gamesOnPage} />
+      <Components.GamesContainer games={gamesOnPage} />
     </div>
   )
 }
