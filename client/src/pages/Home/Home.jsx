@@ -1,3 +1,4 @@
+import './Home.css'
 import React from 'react';
 import {useState, useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
@@ -91,7 +92,7 @@ function Home() {
 
   return (
     <div>
-      <Link to={'/form'} >Add videogame</Link>
+      <Link to={'/form'} className='LinkStyle' >Add videogame</Link>
       <h1>Videogames</h1>
       <Components.VideogameSearchBar redirect={'/detail'} />
       <button onClick={handleClickResetFilters} >Reset Filters</button>

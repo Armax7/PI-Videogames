@@ -165,7 +165,7 @@ function Form() {
 
   return (
     <div>
-        <Link to={'/home'} >Back to Home</Link>
+        <Link to={'/home'} className='LinkStyle' >Back to Home</Link>
         <h1>Create your videogame</h1>
         <form id={FORM_ID} onSubmit={handleSubmit} >
           <div>

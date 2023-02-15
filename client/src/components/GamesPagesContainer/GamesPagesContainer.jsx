@@ -1,3 +1,4 @@
+import './GamesPagesContainer.css'
 import React from 'react'
 
 function GamesPagesContainer(props) {
@@ -10,8 +11,9 @@ function GamesPagesContainer(props) {
         }
     
       return (
-        <nav>
-            <ul className='pagination'>
+        <nav className='Pagination'>
+            Pages: 
+            <ul>
                 {pageNumbers && pageNumbers.map(num => (
                     <li key={num} className='number'>
                         <a onClick={() => pagination(num)} >{num}</a>

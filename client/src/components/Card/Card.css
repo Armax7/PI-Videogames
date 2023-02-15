@@ -1,6 +1,21 @@
-.LinkStyle{
+body {
+    color:yellow;
+}
+
+.CardDiv {
+    background-image: url('../../img/card_bg.png');
+    width: 600px;
+    height: auto;
+    margin:auto;
+    border-style: solid;
+    border-color: plum;
+    border-width: solid;
+}
+
+.CardLinkStyle{
     text-decoration: none;
-    color: black;
+    text-shadow: 2px 2px black;
+    color: yellow;
 }
 
 .GameImage{

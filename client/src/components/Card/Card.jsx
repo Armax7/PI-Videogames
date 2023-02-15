@@ -14,11 +14,13 @@ function Card(props) {
     }
 
   return (
-        <Link to={`/detail`} onClick={handleOnClick} className="LinkStyle" >
-          <h2>{name}</h2>
-          <img src={image} alt={`${name}`} className="GameImage" />
-          <h3>Rating: {rating} stars</h3>
-          <h4>Genres: {genres && genres.map(elem => elem.name.toString()).join(", ")}</h4>
+        <Link to={`/detail`} onClick={handleOnClick} className="CardLinkStyle" >
+          <div className='CardDiv'>
+            <h2>{name}</h2>
+            <img src={image} alt={`${name}`} className="GameImage" />
+            <h3>Rating: {rating} stars</h3>
+            <h4>Genres: {genres && genres.map(elem => elem.name.toString()).join(", ")}</h4>
+          </div>
         </Link>
   )
 }
